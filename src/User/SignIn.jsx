@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import Layout from '../Core/Layout'
-import { signin } from '../Auth'
+import { signin, authenticate } from '../Auth'
 
 
 export default function SignIn() {
     const [values, setValues] = useState({
-        email: "",
-        password: "",
+        email: "test@test.com",
+        password: "test@123",
         error: "",
         loading: false,
         redirectToReferrer: false
@@ -40,16 +40,21 @@ export default function SignIn() {
                     setValues({ ...values, error: data.error, loading: false })
                 }
                 else {
-                    setValues({
-                        ...values,
-                        redirectToReferrer: true
-                    })
+                    authenticate(
+                        data,
+                        () => {
+                            setValues({
+                                ...values,
+                                redirectToReferrer: true
+                            })
+                        }
+                    )
                 }
             })
     }
 
     return (
-        <Layout title="Sign Up" description="Sign Up to the React E-Commerce App" className="container col-md-4 offset-md-4">
+        <Layout title="Sign In" description="Sign In to the React E-Commerce App" className="container col-md-4 offset-md-4">
             <form>
                 <div className="form-group">
                     <label className="text-muted">Email</label>
