@@ -21,6 +21,7 @@ export default function SignUp() {
 
     const clickSubmit = (event) => {
         event.preventDefault()
+        setValues({ ...values, error: false })
         signup({ name, email, password })
             .then(data => {
                 if (data.error) {
